@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import './PostForm.css'
+import 'leaflet/dist/leaflet.css'
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet'
 
 export const PostForm: React.FC = () => {
   const [title, setTitle] = useState('')
@@ -7,6 +9,18 @@ export const PostForm: React.FC = () => {
   const [image, setImage] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [showModal, setShowModal] = useState(false)
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
+    null
+  )
+
+  function LocationMarker() {
+    useMapEvents({
+      click(e) {
+        setLocation(e.latlng)
+      },
+    })
+    return location ? <Marker position={location} /> : null
+  }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null
@@ -25,11 +39,14 @@ export const PostForm: React.FC = () => {
   const handlePostSubmit = (
     title: string,
     description: string,
-    image: File | null
+    image: File | null,
+    location: { lat: number; lng: number } | null
   ) => {
     alert(
       `タイトル: ${title}\n説明: ${description}\n画像: ${
         image ? image.name : 'なし'
+      }\n位置: ${
+        location ? `緯度: ${location.lat}, 経度: ${location.lng}` : '未選択'
       }`
     )
     // 投稿処理をここに追加
@@ -37,12 +54,13 @@ export const PostForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    handlePostSubmit(title, description, image)
+    handlePostSubmit(title, description, image, location)
     setTitle('')
     setDescription('')
     setImage(null)
     setImagePreview(null)
     setShowModal(false)
+    setLocation(null)
   }
 
   return (
@@ -101,6 +119,28 @@ export const PostForm: React.FC = () => {
                 </div>
               )}
             </>
+          )}
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <label className="post-form-label">地図から場所を選択:</label>
+          <div style={{ height: 300, marginBottom: 8 }}>
+            <MapContainer
+              center={[35.681236, 139.767125]} // 東京駅を初期位置に
+              zoom={13}
+              style={{ height: '100%', width: '100%' }}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <LocationMarker />
+            </MapContainer>
+          </div>
+          {location && (
+            <div style={{ fontSize: 14 }}>
+              選択した位置: 緯度 {location.lat.toFixed(5)}, 経度{' '}
+              {location.lng.toFixed(5)}
+            </div>
           )}
         </div>
         <button type="submit" className="post-form-button">
