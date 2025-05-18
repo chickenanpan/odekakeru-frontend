@@ -17,7 +17,7 @@ export const Sidebar = () => {
             to="/"
             style={{ textDecoration: 'none', color: '#333', fontSize: '24px' }}
           >
-            <p>👣 Odekakeru</p>
+            <p>👣 おでかける</p>
           </Link>
           <li style={{ padding: '10px 20px' }}>
             <Link to="/list" style={{ textDecoration: 'none', color: '#333' }}>
