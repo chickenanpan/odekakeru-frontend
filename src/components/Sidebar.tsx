@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import './sidebar.css'
 
 export const Sidebar = () => {
@@ -12,23 +13,31 @@ export const Sidebar = () => {
         }}
       >
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          <p>Odekakeru</p>
+          <Link
+            to="/"
+            style={{ textDecoration: 'none', color: '#333', fontSize: '24px' }}
+          >
+            <p>👣 Odekakeru</p>
+          </Link>
           <li style={{ padding: '10px 20px' }}>
-            <a href="#" style={{ textDecoration: 'none', color: '#333' }}>
-              一覧
-            </a>
+            <Link to="/list" style={{ textDecoration: 'none', color: '#333' }}>
+              📍 一覧
+            </Link>
           </li>
           <li style={{ padding: '10px 20px' }}>
-            <a href="#" style={{ textDecoration: 'none', color: '#333' }}>
-              投稿
-            </a>
+            <Link to="/post" style={{ textDecoration: 'none', color: '#333' }}>
+              ✍️ 投稿
+            </Link>
           </li>
         </ul>
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
           <li style={{ padding: '10px 20px' }}>
-            <a href="#" style={{ textDecoration: 'none', color: '#333' }}>
-              マイページ
-            </a>
+            <Link
+              to="/mypage"
+              style={{ textDecoration: 'none', color: '#333' }}
+            >
+              👤 マイページ
+            </Link>
           </li>
         </ul>
       </nav>

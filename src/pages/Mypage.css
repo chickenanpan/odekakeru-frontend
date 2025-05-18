@@ -1,0 +1,62 @@
+.mypage-container {
+  max-width: 500px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 32px;
+  text-align: center;
+}
+
+.mypage-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+  border: 3px solid #1976d2;
+}
+
+.mypage-name {
+  margin: 8px 0 4px;
+  color: #1976d2;
+}
+
+.mypage-email {
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.mypage-bio {
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.mypage-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 12px;
+}
+
+.mypage-stat-value {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.mypage-stat-label {
+  color: #888;
+  font-size: 13px;
+}
+
+.mypage-edit-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 32px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 8px;
+}
