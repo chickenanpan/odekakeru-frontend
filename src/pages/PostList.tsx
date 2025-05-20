@@ -1,58 +1,51 @@
 import React from 'react'
 import './PostList.css'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 
-const posts = [
-  {
-    id: 1,
-    title: '投稿1のタイトル',
-    image: 'https://placehold.jp/150x150.png',
-    description: '投稿1の説明',
-  },
-  {
-    id: 2,
-    title: '投稿2のタイトル',
-    image: 'https://placehold.jp/150x150.png',
-    description: '投稿2の説明',
-  },
-  {
-    id: 3,
-    title: '投稿3のタイトル',
-    image: 'https://placehold.jp/150x150.png',
-    description: '投稿3の説明',
-  },
-  {
-    id: 4,
-    title: '投稿4のタイトル',
-    image: 'https://placehold.jp/150x150.png',
-    description: '投稿4の説明',
-  },
-  {
-    id: 5,
-    title: '投稿5のタイトル',
-    image: 'https://placehold.jp/150x150.png',
-    description: '投稿5の説明',
-  },
-  {
-    id: 6,
-    title: '投稿6のタイトル',
-    image: 'https://placehold.jp/150x150.png',
-    description: '投稿6の説明',
-  },
-  {
-    id: 7,
-    title: '投稿7のタイトル',
-    image: 'https://placehold.jp/150x150.png',
-    description: '投稿7の説明',
-  },
-  {
-    id: 8,
-    title: '投稿8のタイトル',
-    image: 'https://placehold.jp/150x150.png',
-    description: '投稿8の説明',
-  },
-]
+type Post = {
+  id: number
+  title: string
+  description: string
+  imageUrl: string
+  postUserId: number
+  createdAt: string
+  updatedAt: string
+}
 
 export const PostList: React.FC = () => {
+  const [posts, setPosts] = useState<Post[]>([])
+
+  useEffect(() => {
+    let isMounted = true // マウント状態フラグ
+
+    axios
+      .get('http://localhost:8000/api/post')
+      .then((response) => {
+        if (isMounted) {
+          console.log(response.data)
+          const mappedPosts: Post[] = response.data.map((item: any) => ({
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            imageUrl: item.image_url, // 👈 ここで変換！
+            postUserId: item.post_user_id,
+            createdAt: item.created_at,
+            updatedAt: item.updated_at,
+          }))
+          setPosts(mappedPosts)
+        }
+      })
+      .catch((error) => {
+        console.error('There was an error!', error)
+      })
+
+    // クリーンアップ関数
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
   return (
     <div>
       <div className="search-bar">
@@ -68,12 +61,13 @@ export const PostList: React.FC = () => {
         {posts.map((post) => (
           <div className="post-card" key={post.id}>
             <img
-              src={post.image}
+              src={post.imageUrl}
               alt={post.description}
               className="post-image"
             />
             <h3 className="post-title">{post.title}</h3>
             <p className="post-desc">{post.description}</p>
+            <p className="post-desc">{post.createdAt}</p>
           </div>
         ))}
       </div>
