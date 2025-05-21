@@ -2,6 +2,7 @@ import React from 'react'
 import './PostList.css'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 type Post = {
   id: number
@@ -9,6 +10,8 @@ type Post = {
   description: string
   imageUrl: string
   postUserId: number
+  latitude: number
+  longitude: number
   createdAt: string
   updatedAt: string
 }
@@ -28,7 +31,9 @@ export const PostList: React.FC = () => {
             id: item.id,
             title: item.title,
             description: item.description,
-            imageUrl: item.image_url, // 👈 ここで変換！
+            imageUrl: item.image_url,
+            latitude: item.latitude,
+            longitude: item.longitude,
             postUserId: item.post_user_id,
             createdAt: item.created_at,
             updatedAt: item.updated_at,
@@ -60,11 +65,13 @@ export const PostList: React.FC = () => {
       <div className="post-list">
         {posts.map((post) => (
           <div className="post-card" key={post.id}>
-            <img
-              src={post.imageUrl}
-              alt={post.description}
-              className="post-image"
-            />
+            <Link to={`/detail/${post.id}`} key={post.id}>
+              <img
+                src={post.imageUrl}
+                alt={post.description}
+                className="post-image"
+              />
+            </Link>
             <h3 className="post-title">{post.title}</h3>
             <p className="post-desc">{post.description}</p>
             <p className="post-desc">{post.createdAt}</p>
